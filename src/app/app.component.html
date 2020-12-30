@@ -1,4 +1,7 @@
-<a mat-button routerLink="/home">Home</a>
-<a mat-button routerLink="/login">Login</a>
+<app-header *ngIf="user" [user]="user"></app-header>
 
-<router-outlet></router-outlet>
+<!-- main app container -->
+<div class="app-container" [ngClass]="{ 'bg-light': user }">
+    <alert></alert>
+    <router-outlet></router-outlet>
+</div>
