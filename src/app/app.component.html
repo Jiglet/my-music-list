@@ -1,7 +1,7 @@
 <app-header *ngIf="user" [user]="user"></app-header>
 
 <!-- main app container -->
-<div class="app-container" [ngClass]="{ 'bg-light': user }">
+<div class="app-container" [ngClass]="{ 'bg-white': user }">
     <alert></alert>
     <router-outlet></router-outlet>
 </div>
