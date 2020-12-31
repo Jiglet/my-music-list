@@ -12,6 +12,8 @@ export class SongDetailComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private songsService: SongsService) { }
   song: Song;
+  rate;
+  curRating;
 
   ngOnInit(): void {
     console.log('trackId: '+this.route.snapshot.url[1])

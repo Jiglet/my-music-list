@@ -1,3 +1,8 @@
 .albumCover {
     width: 100%;
 }
+
+ngb-rating {
+    color: #FFC107;
+    font-size: 30px;
+}
