@@ -1,1 +1,19 @@
-<p>song-detail works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <img [src]="song['medImage']" class="albumCover" alt="">
+        <h4 class="text-center">{{ song['album'] }}</h4>
+      </div>
+
+      <div class="col-sm-5">
+        <h1 class="card-title song-title">
+            {{ song['name'] }}
+            <small class="text-muted">by <span *ngFor="let artist of song['artists']; let isLast=last">{{artist}}{{isLast ? '' : ', '}}</span></small>
+        </h1>
+      </div>
+
+      <div class="col-sm-4">
+        One of three columns
+      </div>
+    </div>
+  </div>

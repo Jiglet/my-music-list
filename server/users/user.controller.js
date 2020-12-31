@@ -4,7 +4,6 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const validateRequest = require('../middleware/validate-request');
 const authorize = require('../middleware/authorize')
-const userService = require('./user.service');
 const { response } = require('express');
 const bcrypt = require('bcryptjs');
 const db = require('../db');

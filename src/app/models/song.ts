@@ -1,8 +1,10 @@
 export class Song {
     id: string;
     name: string;
-    artist: string;
-    features: string;
+    artists: string[];
+    album: string;
     release_date: string;
-    image: string;
+    smImage: string;
+    medImage: string;
+    lgImage: string;
 }

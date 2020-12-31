@@ -19,6 +19,7 @@ import { HeaderComponent } from './core/header/header.component';
 import { SongsComponent } from './features/songs/songs.component';
 import { MyListComponent } from './features/my-list/my-list.component';
 import { SongDetailComponent } from './features/song-detail/song-detail.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { SongDetailComponent } from './features/song-detail/song-detail.componen
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    NgbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

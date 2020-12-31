@@ -10,11 +10,14 @@ import { User } from '../models';
 })
 export class SongsService {
 
-  constructor(private router: Router,
-    private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
-  getTop50() {
-    console.log('getTop50 called')
-    return this.http.get(`${environment.apiUrl}/spotify/getTop50`);
-  }
+    getTrack(id) {
+      console.log('service getTrack called id:'+id)
+      return this.http.post(`${environment.apiUrl}/track/getTrack`, id);
+    }
+    getUSTop50() {
+      console.log('getUSTop50 called')
+      return this.http.get(`${environment.apiUrl}/spotify/getUSTop50`);
+    }
 }

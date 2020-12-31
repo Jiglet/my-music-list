@@ -1,4 +1,13 @@
 .thumbnail {
-    max-width: 150px;
-    width: 100%
+    max-width: 140px;
+    height: auto;
+}
+.song-list-item {
+    margin: 10px;
+}
+.song-title {
+    font-weight: bold;
+}
+.card-title {
+    margin-bottom: 0;
 }
