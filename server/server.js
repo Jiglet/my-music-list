@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const errorHandler = require('./middleware/error-handler');
 const { pool } = require('./db');
+var SpotifyWebApi = require('spotify-web-api-node');
 
 const PORT = process.env.PORT || 4000;
 
@@ -16,13 +17,11 @@ app.get("/", (req, res) => {
 });
 
 // API ROUTES
-
-// users
 app.use('/users', require('./users/user.controller'));
+app.use('/spotify', require('./spotify/spotify.controller'));
 
 // global error handler
 app.use(errorHandler);
-
 
 app.listen(PORT, ()=>{
     console.log(`Server running on port ${PORT}`);

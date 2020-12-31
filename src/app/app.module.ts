@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -17,6 +18,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { HeaderComponent } from './core/header/header.component';
 import { SongsComponent } from './features/songs/songs.component';
 import { MyListComponent } from './features/my-list/my-list.component';
+import { SongDetailComponent } from './features/song-detail/song-detail.component';
 
 
 @NgModule({
@@ -29,12 +31,14 @@ import { MyListComponent } from './features/my-list/my-list.component';
     RegisterComponent,
     HeaderComponent,
     SongsComponent,
-    MyListComponent
+    MyListComponent,
+    SongDetailComponent
   ],
   imports: [
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule

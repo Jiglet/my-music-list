@@ -1,1 +1,23 @@
-<p>songs works!</p>
+<p>Top 50</p>
+<div *ngFor="let song of songs"> 
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <img [src]="song['track']['album']['images']['1']['url']" class="img-fluid thumbnail" alt="">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <h4 class="card-title">{{ song['track']['name'] }}</h4>
+                    <p class="card-text">{{ song['track']['album']['name'] }}</p>
+                    <a routerLink="#" class="btn btn-primary">Review it</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer w-100 text-muted">
+            <span *ngFor="let artist of song['track']['artists']; let isLast=last">
+                    {{artist['name']}}{{isLast ? '' : ', '}}
+            </span>
+            
+        </div>
+    </div>
+</div>
