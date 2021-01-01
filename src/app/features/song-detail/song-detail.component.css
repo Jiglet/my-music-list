@@ -1,8 +1,20 @@
+.detail-container {
+    margin-top: 15px;
+}
+
 .albumCover {
     width: 100%;
 }
 
 rating {
     color: #da7c00;
+    font-size: 30px;
+}
+
+.userRating {
+    font-size: 36px;
+}
+
+.song-title {
     font-size: 30px;
 }

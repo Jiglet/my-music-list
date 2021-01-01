@@ -7,6 +7,7 @@ router.post('/getTrackReviews', getTrackReviews);
 router.post('/submitReview', submitReview);
 router.post('/submitRating', submitRating);
 router.post('/updateRating', updateRating);
+router.post('/getUserSongData', getUserSongData);
 
 module.exports = router;
 
@@ -20,7 +21,22 @@ async function getTrackReviews(req, res, next) {
     } else {
         const reviews = qResult.rows[0]
         console.log('reviews: '+JSON.stringify(reviews));
-        res.json({ likes: reviews['likes'], rating: reviews['rating'], ratings: reviews['ratings'], reviews: reviews['reviews']  })
+        res.json({ likes: reviews['likes'], rating: reviews['rating'], ratings: reviews['ratings'], reviews: reviews['reviews'] })
+    }
+}
+
+async function getUserSongData(req, res, next) {
+    let { userID, spotifyID }= req.body;
+     console.log('userID: '+userID)
+     console.log('spotifyID: '+spotifyID)
+    const qResult = await db.pool.query(`SELECT * FROM songreviews WHERE spotifyid = $1 AND userid = $2`, [spotifyID, userID])
+    if (!qResult.rows[0]) {
+        console.log("USER HAS NOT RATED")
+        res.json({ rated: false })
+    } else {
+        const userRatings = qResult.rows[0]
+        console.log('userRatings: '+JSON.stringify(userRatings));
+        res.json({ rated: true, rating: userRatings['rating'], review: userRatings['review'], date: userRatings['date'] })
     }
 }
 

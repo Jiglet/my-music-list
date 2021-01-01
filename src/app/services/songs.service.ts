@@ -30,4 +30,9 @@ export class SongsService {
     submitRating(request) {
       return this.http.post(`${environment.apiUrl}/reviews/submitRating`, request);
     }
+
+    getUserSongData(userID) {
+      console.log('usersongdata called')
+      return this.http.post(`${environment.apiUrl}/reviews/getUserSongData`, userID);
+    }
 }

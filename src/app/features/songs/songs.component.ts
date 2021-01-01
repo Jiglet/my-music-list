@@ -16,10 +16,9 @@ export class SongsComponent implements OnInit {
   songs: Song[] = []
 
   getFeedback() {
-    console.log('here')
     this.songs.forEach(song => {
       let id = {id: song['id']}
-      console.log('id: '+JSON.stringify(id))
+      // console.log('id: '+JSON.stringify(id))
       this.songsService.getTrackReviews(id).subscribe(data => {
         let feedback = data
         song['likes'] = feedback['likes']

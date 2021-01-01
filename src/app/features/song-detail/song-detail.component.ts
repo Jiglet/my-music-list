@@ -17,8 +17,12 @@ export class SongDetailComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private songsService: SongsService, private accountService: AccountService) { }
   myForm: FormGroup; 
   song: Song;
-  details = []
+  details = [];
+
+  rated: Boolean;
   rate = 0;
+  review = '';
+  reviewedDate = '';
   ratingStatus = 'Not yet rated';
   
 
@@ -29,12 +33,10 @@ export class SongDetailComponent implements OnInit {
       'email':new FormControl(null,Validators.email)
     })
 
-    console.log('trackId: '+this.route.snapshot.url[1].path)
+    // Get song data
     let spotifyID = this.route.snapshot.url[1]
     forkJoin([this.songsService.getTrack(spotifyID), this.songsService.getTrackReviews({id: spotifyID.path})]).subscribe(([songData, reviewData]) => {
-      let rating = null
-      let likes = reviewData['likes']
-      console.log('reviewData:' +JSON.stringify(reviewData));
+      // console.log('reviewData:' +JSON.stringify(reviewData));
 
       this.song = { 
         id: songData['data']['id'], 
@@ -55,6 +57,22 @@ export class SongDetailComponent implements OnInit {
     error => {
 
     });
+
+    // Get user data
+    let user = JSON.parse(this.accountService.getUser());
+    let request = { userID: user['id'], spotifyID: this.route.snapshot.url[1].path }
+    this.songsService.getUserSongData(request).subscribe(data => {
+      console.log('DATA: '+JSON.stringify(data))
+      if (data['rated']) {
+        this.rate = data['rating']
+        this.review = data['review']
+        this.reviewedDate = data['date']
+        this.ratingStatus = 'Thanks for rating!'
+        this.rated = true
+      } else { // User has not yet rated
+        console.log('user hasnt rated yet')
+      }
+    })
   }
 
   submitRating(): void {
@@ -70,6 +88,7 @@ export class SongDetailComponent implements OnInit {
     this.songsService.submitRating(request).subscribe(data => {
       if(data['success']) {
         this.ratingStatus = 'Thanks for rating!';
+        this.rated = true;
       } else {
         this.ratingStatus = 'Something went wrong';
       }
