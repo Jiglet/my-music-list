@@ -4,12 +4,79 @@ const db = require('../db');
 
 // routes
 router.post('/getTrackReviews', getTrackReviews);
+router.post('/submitReview', submitReview);
+router.post('/submitRating', submitRating);
+router.post('/updateRating', updateRating);
 
 module.exports = router;
 
-// functions
+// server side gets
 async function getTrackReviews(req, res, next) {
+    let spotifyID = req.body.id;
+    // console.log('spotifyID: '+spotifyID)
+    const qResult = await db.pool.query(`SELECT * FROM tracks WHERE spotifyid = $1`, [spotifyID])
+    if (!qResult.rows[0]) {
+        res.json({ likes: 0, rating: 0, ratings: 0, reviews: 0 })
+    } else {
+        const reviews = qResult.rows[0]
+        console.log('reviews: '+JSON.stringify(reviews));
+        res.json({ likes: reviews['likes'], rating: reviews['rating'], ratings: reviews['ratings'], reviews: reviews['reviews']  })
+    }
+}
+
+// user inputs
+async function submitReview(req, res, next) { // TODO
     let spotifyID = req.body.path;
+    const qResult = await db.pool.query(`SELECT * FROM tracks WHERE spotifyid = $1`, [spotifyID])
+    if (!qResult.rows[0]) {
+        res.json({ likes: 0, rating: 0, ratings: 0, reviews: 0 })
+    } else {
+        const reviews = qResult.rows[0]
+        console.log('reviews: '+JSON.stringify(reviews));
+        res.json({ reviewed: false })
+    }
+}
+
+async function submitRating(req, res, next) {
+    console.log('req.body: '+JSON.stringify(req.body));
+    let { userID, username, spotifyID, rating } = req.body;
+    let date = new Date().toLocaleDateString();
+
+    console.log(userID, username, spotifyID, rating)
+    // Check if user has existing review
+    const exists = await db.pool.query(`SELECT * FROM songreviews WHERE userid = $1 AND spotifyid = $2`, [userID, spotifyID])
+    if (exists.rows[0]) { // User already has existing review
+        console.log("User already submitted rating");
+        res.json({ success: false });
+    }
+    else {
+        await db.pool.query(`INSERT INTO songreviews (userid, username, rating, spotifyid, date) VALUES ($1, $2, $3, $4, $5)`, [userID, username, rating, spotifyID, date])
+
+        const ratings = await db.pool.query(`SELECT ratings, totalrating FROM tracks WHERE spotifyid = $1`, [spotifyID])
+        if (ratings.rows[0]) { // If track has been rated before
+            console.log('ratings.rows[0]: '+JSON.stringify(ratings.rows[0]))
+            newRatings = ratings.rows[0].ratings + 1
+            newTotalRatings = ratings.rows[0].totalrating + rating
+             await db.pool.query(`UPDATE tracks SET ratings = ratings + 1, totalrating = totalrating + $1 WHERE spotifyid = $2`, [rating, spotifyID])
+             await db.pool.query(`UPDATE tracks SET rating = totalrating/ratings WHERE spotifyid = $1`, [spotifyID])
+            
+        } else {
+            await db.pool.query(`INSERT INTO tracks (spotifyid, rating, reviews, likes, ratings, totalrating) VALUES ($1, $2, $3, $4, $5, $6)`, [spotifyID, rating, 0, 0, 1, rating])
+            console.log('ratings.rows[0]: '+ratings.rows[0])
+        }
+        
+        // await db.pool.query(`UPDATE tracks SET totalrating = SUM(totalrating) + SUM($1) WHERE spotifyid = $2`, [rating, spotifyID])
+        // await db.pool.query(`UPDATE tracks SET rating = totalrating/ratings`)
+
+        res.json({ success: true });
+    }
+    
+}
+
+async function updateRating(req, res, next) {
+    console.log('req.body: '+JSON.stringify(req.body));
+    let { userID, username, spotifyID, rating } = req.body;
+    console.log(userID, username, spotifyID, rating)
     const qResult = await db.pool.query(`SELECT * FROM tracks WHERE spotifyid = $1`, [spotifyID])
     if (!qResult.rows[0]) {
         res.json({ likes: 0, rating: 0, ratings: 0, reviews: 0 })

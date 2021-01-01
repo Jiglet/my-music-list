@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { SongsService } from 'src/app/services/songs.service';
 import { Song } from '../../models/song'
+import { User } from 'src/app/models/user';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AccountService } from 'src/app/services';
 
 @Component({
   selector: 'app-song-detail',
@@ -12,14 +14,13 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 })
 export class SongDetailComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, private songsService: SongsService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private songsService: SongsService, private accountService: AccountService) { }
   myForm: FormGroup; 
   song: Song;
   details = []
-
-  rate;
-  curRating;
-  hovered = 0;
+  rate = 0;
+  ratingStatus = 'Not yet rated';
+  
 
   ngOnInit(): void {
     // Init FormGroup instance
@@ -28,9 +29,9 @@ export class SongDetailComponent implements OnInit {
       'email':new FormControl(null,Validators.email)
     })
 
-    console.log('trackId: '+this.route.snapshot.url[1])
+    console.log('trackId: '+this.route.snapshot.url[1].path)
     let spotifyID = this.route.snapshot.url[1]
-    forkJoin([this.songsService.getTrack(spotifyID), this.songsService.getTrackReviews(spotifyID)]).subscribe(([songData, reviewData]) => {
+    forkJoin([this.songsService.getTrack(spotifyID), this.songsService.getTrackReviews({id: spotifyID.path})]).subscribe(([songData, reviewData]) => {
       let rating = null
       let likes = reviewData['likes']
       console.log('reviewData:' +JSON.stringify(reviewData));
@@ -56,8 +57,27 @@ export class SongDetailComponent implements OnInit {
     });
   }
 
+  submitRating(): void {
+    console.log('rate: '+this.rate)
+    let user = JSON.parse(this.accountService.getUser());
+    console.log('user: '+user)
+    let request = {
+      userID: user["id"],
+      username: user['username'],
+      spotifyID: this.route.snapshot.url[1].path,
+      rating: this.rate
+    }
+    this.songsService.submitRating(request).subscribe(data => {
+      if(data['success']) {
+        this.ratingStatus = 'Thanks for rating!';
+      } else {
+        this.ratingStatus = 'Something went wrong';
+      }
+    })
+  }
+
   submitReview(): void {
-    
+
   }
 
 }

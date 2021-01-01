@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 //Routing Imports
@@ -19,7 +19,7 @@ import { HeaderComponent } from './core/header/header.component';
 import { SongsComponent } from './features/songs/songs.component';
 import { MyListComponent } from './features/my-list/my-list.component';
 import { SongDetailComponent } from './features/song-detail/song-detail.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 
 @NgModule({
@@ -37,13 +37,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserModule,
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    NgbModule
+    RatingModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

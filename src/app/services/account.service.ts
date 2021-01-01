@@ -30,7 +30,12 @@ export class AccountService {
                 console.log('res: '+JSON.stringify(res));
                 if (res['login']) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('user', JSON.stringify(res['user']));
+                    const user = {
+                        id: res['user']['id'],
+                        username: res['user']['username']
+                    }
+                    localStorage.setItem('user', JSON.stringify(user));
+                    console.log('user: '+JSON.stringify(user));
                     this.userSubject.next(res['user']);
                     return res['user'];
                 } else {
@@ -50,8 +55,8 @@ export class AccountService {
         return this.http.post(`${environment.apiUrl}/users/register`, user);
     }
 
-    getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+    getUser() {
+        return localStorage.getItem('user');
     }
 
     getById(id: string) {

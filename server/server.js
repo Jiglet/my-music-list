@@ -8,8 +8,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 const PORT = process.env.PORT || 4000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {

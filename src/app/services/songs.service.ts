@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, UrlSegment } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
@@ -24,5 +24,10 @@ export class SongsService {
     // REVIEWS API CALLS
     getTrackReviews(id) {
       return this.http.post(`${environment.apiUrl}/reviews/getTrackReviews`, id);
+    }
+
+    // RATING API CALLS
+    submitRating(request) {
+      return this.http.post(`${environment.apiUrl}/reviews/submitRating`, request);
     }
 }

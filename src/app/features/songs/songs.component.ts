@@ -15,16 +15,19 @@ export class SongsComponent implements OnInit {
 
   songs: Song[] = []
 
-  getFeedback(id): Object {
-    let info: Object = {
-      likes: 0,
-      rating: -1,
-      ratings: 0,
-      reviews: 0
-    }
-
-    this.songsService.getTrackReviews(id).subscribe(data => {info = data});
-    return info;
+  getFeedback() {
+    console.log('here')
+    this.songs.forEach(song => {
+      let id = {id: song['id']}
+      console.log('id: '+JSON.stringify(id))
+      this.songsService.getTrackReviews(id).subscribe(data => {
+        let feedback = data
+        song['likes'] = feedback['likes']
+        song['rating'] = feedback['rating'] >= 0 ? feedback['rating'] : 'No ratings yet'
+        song['ratings'] = feedback['ratings']
+        song['reviews'] = feedback['reviews']
+      });
+    })
   }
 
   ngOnInit(): void {
@@ -34,8 +37,6 @@ export class SongsComponent implements OnInit {
       // Parsing the JSON data into songs
       this.songs = temp.map(track => { 
         //console.log('track: '+JSON.stringify(track,null,2))
-        const feedback = this.getFeedback(track['track']['id']);
-
         let newSong: Song = { 
           id: track['track']['id'], 
           name: track['track']['name'],
@@ -45,18 +46,20 @@ export class SongsComponent implements OnInit {
           smImage: track['track']['album']['images']['0']['url'],
           medImage: track['track']['album']['images']['1']['url'],
           lgImage: track['track']['album']['images']['2']['url'],
-          likes: feedback['likes'],
-          rating: feedback['rating'] >= 0 ? feedback['rating'] : 'No ratings yet',
-          ratings: feedback['ratings'],
-          reviews: feedback['reviews'],
+          likes: 0,
+          rating: 'No ratings yet',
+          ratings: 0,
+          reviews: 0,
         }  
         return newSong
       })
       //console.log('songs: '+JSON.stringify(this.songs,null,2))
+      this.getFeedback();
     }),
     error => {
       throw error;
     };
 
+    
   }
 }
