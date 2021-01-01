@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 app.use('/users', require('./users/user.controller'));
 app.use('/spotify', require('./spotify/spotify.controller'));
 app.use('/track', require('./spotify/spotify.controller'));
+app.use('/reviews', require('./reviews/reviews.controller'));
 
 // global error handler
 app.use(errorHandler);

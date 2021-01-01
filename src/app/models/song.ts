@@ -7,4 +7,8 @@ export class Song {
     smImage: string;
     medImage: string;
     lgImage: string;
+    likes: number;
+    rating: string;
+    ratings: number;
+    reviews: number;
 }

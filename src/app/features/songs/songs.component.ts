@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { flatMap, mergeMap, switchMap } from 'rxjs/operators';
 import { SongsService } from 'src/app/services/songs.service';
 import { Song } from '../../models/song'
 
@@ -14,6 +15,18 @@ export class SongsComponent implements OnInit {
 
   songs: Song[] = []
 
+  getFeedback(id): Object {
+    let info: Object = {
+      likes: 0,
+      rating: -1,
+      ratings: 0,
+      reviews: 0
+    }
+
+    this.songsService.getTrackReviews(id).subscribe(data => {info = data});
+    return info;
+  }
+
   ngOnInit(): void {
     this.songsService.getUSTop50().subscribe(data => {
       let temp = data['data']['tracks']['items']
@@ -21,6 +34,8 @@ export class SongsComponent implements OnInit {
       // Parsing the JSON data into songs
       this.songs = temp.map(track => { 
         //console.log('track: '+JSON.stringify(track,null,2))
+        const feedback = this.getFeedback(track['track']['id']);
+
         let newSong: Song = { 
           id: track['track']['id'], 
           name: track['track']['name'],
@@ -29,14 +44,19 @@ export class SongsComponent implements OnInit {
           release_date: track['track']['album']['release_date'],
           smImage: track['track']['album']['images']['0']['url'],
           medImage: track['track']['album']['images']['1']['url'],
-          lgImage: track['track']['album']['images']['2']['url']
+          lgImage: track['track']['album']['images']['2']['url'],
+          likes: feedback['likes'],
+          rating: feedback['rating'] >= 0 ? feedback['rating'] : 'No ratings yet',
+          ratings: feedback['ratings'],
+          reviews: feedback['reviews'],
         }  
         return newSong
       })
       //console.log('songs: '+JSON.stringify(this.songs,null,2))
-    },
-      error => {
+    }),
+    error => {
+      throw error;
+    };
 
-      });
   }
 }

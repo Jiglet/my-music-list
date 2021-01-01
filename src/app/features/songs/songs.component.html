@@ -9,9 +9,14 @@
                 <div class="card-block px-2">
                     <h2 class="card-title song-title">{{ song['name'] }}</h2>
                     <h4 class="card-subtitle mb-2">{{ song['album'] }}</h4>
-                    <p> User Rating: </p>
+                    <p> User Rating: {{song['rating']}}</p>
                     <a [routerLink]="'/track/' + song['id']" class="btn btn-primary">Review it</a>
                 </div>
+            </div>
+            <div class="ml-auto mr-3">
+                <p> Likes: {{song['likes']}}</p>
+                <p> Reviews: {{song['reviews']}}</p>
+                <p> Ratings: {{song['ratings']}}</p>
             </div>
         </div>
         <div class="card-footer w-100 text-muted">
