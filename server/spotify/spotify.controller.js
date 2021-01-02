@@ -1,8 +1,7 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 const express = require('express');
 const router = express.Router();
-
-
+require('dotenv').config();
 
 const token = "BQDeD_ZKsSCiMuU3QuTsIxeasCmONYSyu0NnEMzp3nzcXTxGtBYwnXdZypa1yia7DyDe0Tn6UXtoGc95lEw";
 var spotifyApi = new SpotifyWebApi({

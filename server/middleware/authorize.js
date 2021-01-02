@@ -1,4 +1,6 @@
 const jwt = require('express-jwt');
+require('dotenv').config();
+
 const secret = process.env.JWT_KEY
 const db = require('../db');
 
