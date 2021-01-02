@@ -10,7 +10,7 @@
                     <h2 class="card-title song-title">{{ song['name'] }}</h2>
                     <h4 class="card-subtitle mb-2">{{ song['album'] }}</h4>
                     <p> User Rating: {{song['rating']}}</p>
-                    <a [routerLink]="'/track/' + song['id']" class="btn btn-primary">Review it</a>
+                    <a [routerLink]="'/track/' + song['id']" class="btn btn-primary">Rate it</a>
                 </div>
             </div>
             <div class="ml-auto mr-3">

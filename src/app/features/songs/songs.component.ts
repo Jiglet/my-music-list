@@ -22,7 +22,7 @@ export class SongsComponent implements OnInit {
       this.songsService.getTrackReviews(id).subscribe(data => {
         let feedback = data
         song['likes'] = feedback['likes']
-        song['rating'] = feedback['rating'] >= 0 ? feedback['rating'] : 'No ratings yet'
+        song['rating'] = feedback['rating'] >= 0 ? (Math.round(feedback['rating'] * 100) / 100).toFixed(2).toString() : 'No ratings yet'
         song['ratings'] = feedback['ratings']
         song['reviews'] = feedback['reviews']
       });

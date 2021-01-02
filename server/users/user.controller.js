@@ -42,7 +42,7 @@ async function authenticate(req, res, next) {
 }
 
 async function register(req, res) {
-    console.log('PARAMS: '+JSON.stringify(req.body));
+    // console.log('PARAMS: '+JSON.stringify(req.body));
     let { email, username, password } = await req.body
 
     // hash password

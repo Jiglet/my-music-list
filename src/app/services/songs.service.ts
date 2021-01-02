@@ -13,11 +13,9 @@ export class SongsService {
   constructor(private router: Router, private http: HttpClient) { }
     // SPOTIFY API CALLS
     getTrack(id) {
-      console.log('service getTrack called id:'+id)
       return this.http.post(`${environment.apiUrl}/track/getTrack`, id);
     }
     getUSTop50() {
-      console.log('getUSTop50 called')
       return this.http.get(`${environment.apiUrl}/spotify/getUSTop50`);
     }
 
@@ -26,11 +24,20 @@ export class SongsService {
       return this.http.post(`${environment.apiUrl}/reviews/getTrackReviews`, id);
     }
 
+    submitReview(request) {
+      return this.http.post(`${environment.apiUrl}/reviews/submitReview`, request);
+    }
+
     // RATING API CALLS
     submitRating(request) {
       return this.http.post(`${environment.apiUrl}/reviews/submitRating`, request);
     }
 
+    editRating(request) {
+      return this.http.post(`${environment.apiUrl}/reviews/editRating`, request);
+    }
+
+    // USER DATA API CALLS
     getUserSongData(userID) {
       console.log('usersongdata called')
       return this.http.post(`${environment.apiUrl}/reviews/getUserSongData`, userID);
