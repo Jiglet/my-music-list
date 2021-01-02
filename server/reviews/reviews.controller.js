@@ -123,6 +123,7 @@ async function submitReview(req, res, next) { // TODO
         await db.pool.query(`INSERT INTO songreviews (userid, username, rating, spotifyid, date, review) VALUES ($1, $2, $3, $4, $5, $6)`, [userID, username, rating, spotifyID, date, reviewContent])
 
         // Check if track exists in tracks table
+        const ratings = await db.pool.query(`SELECT ratings, totalrating FROM tracks WHERE spotifyid = $1`, [spotifyID])
         if (ratings.rows[0]) { // If track already exists in tracks
             console.log('ratings.rows[0]: '+JSON.stringify(ratings.rows[0]))
             newRatings = ratings.rows[0].ratings + 1
