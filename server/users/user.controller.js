@@ -54,7 +54,7 @@ async function register(req, res) {
             if (err) {
                 console.log(err);
             }
-            if (results.rows.length > 0) {
+            if (results.rows[0]) {
                 console.log("E-mail has already been registered")
                 res.json({ message: "E-mail has already been registered", registered: false});
             } else {
@@ -65,7 +65,7 @@ async function register(req, res) {
                             console.log(err);
                         }
                 
-                        if (results.rows.length > 0) {
+                        if (results.rows[0] > 0) {
                             console.log("Username has already been taken")
                             res.json({ message: "Username has already been taken", registered: false});
                         } else {
