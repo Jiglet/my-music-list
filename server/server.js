@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const router = express.Router();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const errorHandler = require('./middleware/error-handler');
@@ -11,10 +12,6 @@ const PORT = process.env.PORT || 4000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
-
-app.get("/", (req, res) => {
-    res.send("Hello");
-});
 
 // API ROUTES
 app.use('/users', require('./users/user.controller'));
