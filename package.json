@@ -2,7 +2,8 @@
   "name": "my-song-list",
   "version": "0.0.0",
   "engines": {
-    "node": "12.19.0"
+    "node": "12.19.0",
+    "npm": "6.14.8"
   },
   "scripts": {
     "ng": "ng",
@@ -11,7 +12,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot"
+    "postinstall": "ng build --prod --aot"
   },
   "private": true,
   "dependencies": {
@@ -38,7 +39,8 @@
     "rxjs": "~6.6.0",
     "spotify-web-api-node": "^5.0.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "typescript": "~4.0.2"
   },
   "devDependencies": {
     "@types/node": "^12.11.1",
@@ -55,6 +57,5 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
   }
 }
