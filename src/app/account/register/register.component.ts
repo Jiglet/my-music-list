@@ -5,11 +5,17 @@ import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService } from '../../services';
 
-@Component({ templateUrl: 'register.component.html' })
+@Component({ 
+    selector: 'app-register',
+    templateUrl: 'register.component.html',
+    styleUrls: ['register.component.css']
+})
 export class RegisterComponent implements OnInit {
     form: FormGroup;
     loading = false;
     submitted = false;
+    password = '';
+    confirmPassword = '';
 
     constructor(
         private formBuilder: FormBuilder,
@@ -28,7 +34,7 @@ export class RegisterComponent implements OnInit {
         this.form = this.formBuilder.group({
             email: ['', Validators.required],
             username: ['', Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            password: ['', [Validators.required, Validators.minLength(6)]],
         });
     }
 
