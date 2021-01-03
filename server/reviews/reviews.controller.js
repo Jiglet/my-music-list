@@ -143,6 +143,11 @@ async function submitReview(req, res, next) { // TODO
             await db.pool.query(`UPDATE songreviews SET rating = $1, review = $2 WHERE userid = $3 AND spotifyid = $4`, [rating, reviewContent, userID, spotifyID])
             await db.pool.query(`UPDATE tracks SET totalrating = totalrating + $1 WHERE spotifyid = $2`, [diff, spotifyID])
             await db.pool.query(`UPDATE tracks SET rating = totalrating/ratings WHERE spotifyid = $1`, [spotifyID])
+
+            // Check if we need to increment review number
+            if (!exists.rows[0]['review']) {
+                await db.pool.query(`UPDATE tracks SET reviews = reviews + 1 WHERE spotifyid = $1`, [spotifyID])
+            }
             res.json({ success: true });
         }
         else { // User does not have existing review
@@ -272,6 +277,11 @@ async function submitAlbumReview(req, res, next) { // TODO
             await db.pool.query(`UPDATE albumreviews SET rating = $1, review = $2 WHERE userid = $3 AND spotifyid = $4`, [rating, reviewContent, userID, spotifyID])
             await db.pool.query(`UPDATE albums SET totalrating = totalrating + $1 WHERE spotifyid = $2`, [diff, spotifyID])
             await db.pool.query(`UPDATE albums SET rating = totalrating/ratings WHERE spotifyid = $1`, [spotifyID])
+
+            // Check if we need to increment review number
+            if (!exists.rows[0]['review']) {
+                await db.pool.query(`UPDATE albums SET reviews = reviews + 1 WHERE spotifyid = $1`, [spotifyID])
+            }
             res.json({ success: true });
         }
         else { // User does not have existing review
