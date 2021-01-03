@@ -62,7 +62,7 @@ async function getAlbum(req, res, next) {
 
 async function getUSTop50(req, res, next) {
     console.log('server getTop50 called')
-    spotifyApi.getPlaylist('16wsvPYpJg1dmLhz0XTOmX')
+    spotifyApi.getPlaylist('37i9dQZEVXbLRQDuF5jeBp?si=vxX4ocxKSFG-koal1y4Emw')
     .then(function(data) {
       // console.log('Some information about this playlist', data.body);
       res.send({ data: data.body })
