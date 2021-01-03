@@ -1,7 +1,9 @@
-<h2 class="text-center"><strong>New Releases</strong></h2>
+<div class="jumbotron text-center splash homeSplash">
+    <h1>New Releases</h1>
+</div>
 <hr>
 <div class="row">
-    <div *ngFor="let album of albums" class="col-md-3">
+    <div *ngFor="let album of albums" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-6">
         <a [routerLink]="'/album/' + album['id']">
         <div class="profile-card-6"><img [src]="album.medImage" class="img img-responsive">
             <div class="profile-name">{{ album['artists'][0] }}</div>

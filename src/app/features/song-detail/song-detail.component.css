@@ -15,6 +15,15 @@ rating {
     font-size: 36px;
 }
 
-.song-title {
+.album-title {
     font-size: 30px;
+}
+
+.rateWidget {
+    position: relative;
+    right: 0;
+}
+
+.reviewSection {
+    width: 100%;
 }

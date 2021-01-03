@@ -20,75 +20,85 @@ router.delete('/:id', authorize(), _delete);
 module.exports = router;
 
 async function authenticate(req, res, next) {
-    let { username, password } = req.body;
-    console.log('user pass: '+username+''+password)
-
-    const qResult = await db.pool.query(`SELECT * FROM users WHERE username = $1`, [username])
-    if (qResult.rows[0]) {
-        const user = qResult.rows[0]
-        if (await bcrypt.compare(password, user['password'])) {
-            console.log('password: '+password)
-            console.log('user password: '+user['password'])
-            console.log('password matches')
-            res.json({ message: "Login successful", login: true, user: user })
+    try {
+        let { username, password } = req.body;
+        console.log('user pass: '+username+''+password)
+    
+        const qResult = await db.pool.query(`SELECT * FROM users WHERE username = $1`, [username])
+        if (qResult.rows[0]) {
+            const user = qResult.rows[0]
+            if (await bcrypt.compare(password, user['password'])) {
+                console.log('password: '+password)
+                console.log('user password: '+user['password'])
+                console.log('password matches')
+                res.json({ message: "Login successful", login: true, user: user })
+            }
+            else {
+                console.log('password wrong')
+                res.json({ message: "Password is incorrect", login: false })
+            }
+        } else {
+            res.json({ message: "User does not exist", login: false })
         }
-        else {
-            console.log('password wrong')
-            res.json({ message: "Password is incorrect", login: false })
-        }
-    } else {
-        res.json({ message: "User does not exist", login: false })
+    }
+    catch(e) {
+        console.log('error: '+e);
     }
 }
 
 async function register(req, res) {
+    try {
+        let { email, username, password } = await req.body
+
+        // hash password
+        let hash = await bcrypt.hash(password, 10);
+    
+        db.pool.query(
+            `SELECT * FROM users WHERE email = $1`, [email],
+            (err, results) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (results.rows[0]) {
+                    console.log("E-mail has already been registered")
+                    res.json({ message: "E-mail has already been registered", registered: false});
+                } else {
+                    db.pool.query(
+                        `SELECT * FROM users WHERE username = $1`, [username],
+                        (err, results) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                    
+                            if (results.rows[0] > 0) {
+                                console.log("Username has already been taken")
+                                res.json({ message: "Username has already been taken", registered: false});
+                            } else {
+                                db.pool.query(
+                                    `INSERT INTO users (username, email, password)
+                                        VALUES ($1, $2, $3)
+                                        RETURNING id, password`,
+                                    [username, email, hash],
+                                    (err, results) => {
+                                    if (err) {
+                                        throw err;
+                                    }
+    
+                                    console.log("Registration successful");
+                                    res.json({ message: "Registration successful", registered: true});
+                                    }
+                                );
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
+    catch(e) {
+        console.log('error: '+e);
+    }
     // console.log('PARAMS: '+JSON.stringify(req.body));
-    let { email, username, password } = await req.body
-
-    // hash password
-    let hash = await bcrypt.hash(password, 10);
-
-    db.pool.query(
-        `SELECT * FROM users WHERE email = $1`, [email],
-        (err, results) => {
-            if (err) {
-                console.log(err);
-            }
-            if (results.rows[0]) {
-                console.log("E-mail has already been registered")
-                res.json({ message: "E-mail has already been registered", registered: false});
-            } else {
-                db.pool.query(
-                    `SELECT * FROM users WHERE username = $1`, [username],
-                    (err, results) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                
-                        if (results.rows[0] > 0) {
-                            console.log("Username has already been taken")
-                            res.json({ message: "Username has already been taken", registered: false});
-                        } else {
-                            db.pool.query(
-                                `INSERT INTO users (username, email, password)
-                                    VALUES ($1, $2, $3)
-                                    RETURNING id, password`,
-                                [username, email, hash],
-                                (err, results) => {
-                                if (err) {
-                                    throw err;
-                                }
-
-                                console.log("Registration successful");
-                                res.json({ message: "Registration successful", registered: true});
-                                }
-                            );
-                        }
-                    }
-                );
-            }
-        }
-    );
 }
 
 function getAll(req, res, next) {

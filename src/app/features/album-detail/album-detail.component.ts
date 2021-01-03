@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { SongsService } from 'src/app/services/songs.service';
 import { Song } from '../../models/song'
+import { Album } from '../../models/album'
 import { User } from 'src/app/models/user';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/services';
@@ -16,9 +17,10 @@ export class AlbumDetailComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private songsService: SongsService, private accountService: AccountService) { }
   reviewForm: FormGroup; 
-  song: Song;
+  album: Album;
   details = [];
   userReviews = [];
+  tracks = [];
 
   rated: Boolean;
   rate = 0;
@@ -34,25 +36,29 @@ export class AlbumDetailComponent implements OnInit {
       'reviewContent':new FormControl('', Validators.required)
     })
 
-    // Get song data
+    // Get album data
     let spotifyID = this.route.snapshot.url[1]
-    forkJoin([this.songsService.getTrack(spotifyID), this.songsService.getTrackReviews({id: spotifyID.path})]).subscribe(([songData, reviewData]) => {
-      // console.log('reviewData:' +JSON.stringify(reviewData));
-      this.song = { 
-        id: songData['data']['id'], 
-        name: songData['data']['name'],
-        artists: songData['data']['artists'].map(x => x['name']),
-        album: songData['data']['album']['name'],
-        release_date: songData['data']['album']['release_date'],
-        smImage: songData['data']['album']['images']['0']['url'],
-        medImage: songData['data']['album']['images']['1']['url'],
-        lgImage: songData['data']['album']['images']['2']['url'],
+    forkJoin([this.songsService.getAlbum(spotifyID), this.songsService.getAlbumReviews({id: spotifyID.path})]).subscribe(([albumData, reviewData]) => {
+      let album = albumData['data'];
+      console.log('albumData:' +JSON.stringify(albumData, null, 2));
+      console.log('reviewData:' +JSON.stringify(reviewData, null, 2));
+      this.album = { 
+        id: album['id'], 
+        name: album['name'],
+        type: album['type'],
+        artists: album['artists'].map(x => x['name']),
+        tracks: album['total_tracks'],
+        release_date: album['release_date'],
+        smImage: album['images']['0']['url'],
+        medImage: album['images']['1']['url'],
+        lgImage: album['images']['2']['url'],
         likes: reviewData['likes'],
         rating: (Math.round(reviewData['rating'] * 100) / 100).toFixed(2).toString(),
         ratings: reviewData['ratings'],
         reviews: reviewData['reviews'],
       }
-      console.log(JSON.stringify(this.song,null,2));
+      this.tracks = album['tracks']['items'];
+      console.log(JSON.stringify(this.album,null,2));
       this.userReviews = reviewData['userReviews']
       console.log('this.reviews: '+JSON.stringify(this.userReviews))
     },
@@ -60,13 +66,10 @@ export class AlbumDetailComponent implements OnInit {
       throw error
     });
 
-    // Get reviews for current song
-
-
     // Get user data
     let user = JSON.parse(this.accountService.getUser());
     let request = { userID: user['id'], spotifyID: this.route.snapshot.url[1].path }
-    this.songsService.getUserSongData(request).subscribe(data => {
+    this.songsService.getUserAlbumData(request).subscribe(data => {
       console.log('DATA: '+JSON.stringify(data))
       if (data['rated']) {
         this.rate = data['rating']
@@ -80,11 +83,12 @@ export class AlbumDetailComponent implements OnInit {
     })
   }
 
-  submitRating(rate): void {
+  submitAlbumRating(rate): void {
     // Get user data to send in request
     let user = JSON.parse(this.accountService.getUser());
     let request = {
-      userID: user["id"],
+      type: 'album',
+      userID: user['id'],
       username: user['username'],
       spotifyID: this.route.snapshot.url[1].path,
       rating: rate
@@ -92,19 +96,21 @@ export class AlbumDetailComponent implements OnInit {
 
     // If user already rated, send edit request, otherwise send submit
     if (this.rated) {
-      this.songsService.editRating(request).subscribe(data => {
+      this.songsService.editAlbumRating(request).subscribe(data => {
         if(data['success']) {
           this.ratingStatus = 'Rating updated!';
           this.rated = true;
+          window.location.reload();
         } else {
           this.ratingStatus = 'Something went wrong';
         }
       })
     } else {
-      this.songsService.submitRating(request).subscribe(data => {
+      this.songsService.submitAlbumRating(request).subscribe(data => {
         if(data['success']) {
           this.ratingStatus = 'Thanks for rating!';
           this.rated = true;
+          window.location.reload();
         } else {
           this.ratingStatus = 'Something went wrong';
         }
@@ -112,12 +118,13 @@ export class AlbumDetailComponent implements OnInit {
     }
   }
 
-  submitReview(): void {
+  submitAlbumReview(): void {
     let user = JSON.parse(this.accountService.getUser());
     let rating = this.reviewForm.get('rating').value
     let reviewContent = this.reviewForm.get('reviewContent').value
 
     let request = {
+      type: 'album',
       userID: user["id"],
       username: user['username'],
       spotifyID: this.route.snapshot.url[1].path,
@@ -125,10 +132,11 @@ export class AlbumDetailComponent implements OnInit {
       reviewContent: reviewContent
     }
 
-    this.songsService.submitReview(request).subscribe(data => {
+    this.songsService.submitAlbumReview(request).subscribe(data => {
       if(data['success']) {
         this.ratingStatus = 'Thanks for reviewing!';
         this.rated = true;
+        window.location.reload();
       } else {
         this.ratingStatus = 'Something went wrong';
       }

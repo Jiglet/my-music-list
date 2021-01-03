@@ -1,0 +1,30 @@
+.detail-container {
+    margin-top: 15px;
+    font-family: Helvetica;
+}
+
+.albumCover {
+    width: 100%;
+}
+
+rating {
+    color: #da7c00;
+    font-size: 30px;
+}
+
+.userRating {
+    font-size: 36px;
+}
+
+.album-title {
+    font-size: 30px;
+}
+
+.rateWidget {
+    position: relative;
+    right: 0;
+}
+
+.reviewSection {
+    width: 100%;
+}

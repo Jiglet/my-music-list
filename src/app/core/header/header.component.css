@@ -1,7 +1,42 @@
 .header{
     background-color: #e3f2fd;
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.profile {
-    float: right;
+.navbar .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-link {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #031D44;
+    padding: 3px 0px;
+    margin: 0px 15px;
+    display: inline-block;
+    position: relative;
+    opacity: 0.85;
+}
+
+.nav-link:hover {
+    opacity: 1;
+}
+
+.nav-link::before {
+    transition: 300ms;
+    height: 3px;
+    content: "";
+    position: absolute;
+    background-color: #031D44;
+}
+
+.nav-link-grow-up::before {
+    height: 0%;
+    width: 100%;
+    bottom: 0px;
+}
+
+.nav-link-grow-up:hover::before {
+    height: 3px;
 }

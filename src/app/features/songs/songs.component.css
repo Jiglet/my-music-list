@@ -1,3 +1,30 @@
+/*Jumbotron*/
+.splash {
+    background: linear-gradient(rgba(0, 0, 0, 0.37), rgba(255, 255, 255, 0.274)),url('../../../assets/kanye-stage-cropped.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* <= This one */  
+    
+    color: white;
+    padding-top: 7%!important;
+    padding-bottom: 7% !important;
+    text-shadow: 1px 1px 5px rgba(0,0,0,.4);
+}
+
+/* Title */
+.splash h1 {
+    font-family: 'Helvetica' ;
+    font-weight:700;
+    font-size:40px;
+    color:rgb(140, 255, 247);	
+	letter-spacing:2px;
+	text-align:center;
+	text-transform:uppercase;
+	margin:0 !important;
+	padding-bottom:25px;
+}
+
 .thumbnail {
     max-width: 140px;
     height: auto;
@@ -10,4 +37,15 @@
 }
 .card-title {
     margin-bottom: 0;
+}
+.feedback {
+    float: right;
+    margin: 10px;
+}
+.likes{
+    position: absolute;
+    text-align: center;
+    float: right;
+    right: 20px;
+    bottom: 40px;
 }

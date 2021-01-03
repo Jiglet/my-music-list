@@ -1,8 +1,23 @@
+/*Jumbotron*/
+.splash {
+    background: linear-gradient(rgba(0, 0, 0, 0.404), rgba(255, 255, 255, 0.37)),url('../../../assets/lofi-girl-cat-headphone-cropped.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* <= This one */  
+
+    color: white;
+    padding-top: 7% !important;
+    padding-bottom: 7% !important;
+    text-shadow: 10px 10px 10px rgba(0,0,0,.4);
+}
+
 /* Title */
-header h1 {
-    font-weight:300;
-    font-size:24px;
-    color:#eee;	
+.splash h1 {
+    font-family: 'Helvetica' ;
+    font-weight:700;
+    font-size:40px;
+    color:rgb(140, 255, 247);	
 	letter-spacing:2px;
 	text-align:center;
 	text-transform:uppercase;
@@ -75,9 +90,7 @@ a:focus {
 
 .profile-card-6 .profile-position {
     position: absolute;
-    top: 50%;  /* position the top  edge of the element at the middle of the parent */
-    left: 50%; /* position the left edge of the element at the middle of the parent */
-    transform: translate(-50%, -50%);
+    
     font-size: 25px;
     font-weight: bold;
     color: #FFF;
@@ -120,7 +133,7 @@ a:focus {
 }
 
 .profile-card-6:hover img {
-    filter: brightness(80%);
+    filter: brightness(20%);
 }
 
 .profile-card-6:hover .profile-name {

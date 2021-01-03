@@ -1,29 +1,34 @@
-<h1>US Top 50</h1>
-<div *ngFor="let song of songs"> 
-    <div class="card song-list-item">
-        <div class="row no-gutters">
-            <div class="col-auto">
-                <img [src]="song['medImage']" class="img-fluid thumbnail" alt="">
-            </div>
-            <div class="col">
-                <div class="card-block px-2">
-                    <h2 class="card-title song-title">{{ song['name'] }}</h2>
-                    <h4 class="card-subtitle mb-2">{{ song['album'] }}</h4>
-                    <p> User Rating: {{song['rating']}}</p>
-                    <a [routerLink]="'/track/' + song['id']" class="btn btn-primary">Rate it</a>
+<div class="jumbotron text-center splash homeSplash">
+    <h1>US Top 50</h1>
+  </div>
+<hr>
+<div class="row">
+    <div *ngFor="let song of songs" class="col-xl-4"> 
+        <div class="card song-list-item">
+            <div class="row no-gutters">
+                <div class="col-auto">
+                    <img [src]="song['medImage']" class="img-fluid thumbnail" alt="">
+                </div>
+                <div class="col">
+                    <div class="card-block px-2">
+                        <h2 class="card-title song-title">{{ song['name'] }}</h2>
+                        <h4 class="card-subtitle mb-2">{{ song['album'] }}</h4>
+                        <p> User Rating: {{song['rating']}}</p>
+                        <a [routerLink]="'/track/' + song['id']" class="btn btn-primary">Rate it</a>
+                    </div>
+                </div>
+                <div class="feedback ml-auto mr-3">
+                    <p> Reviews: {{song['reviews']}}</p>
+                    <p> Ratings: {{song['ratings']}}</p>
+                    <div class="likes"><p><i class="gg-heart"></i></p><p>{{song['likes']}}</p></div>
                 </div>
             </div>
-            <div class="ml-auto mr-3">
-                <p> Likes: {{song['likes']}}</p>
-                <p> Reviews: {{song['reviews']}}</p>
-                <p> Ratings: {{song['ratings']}}</p>
+            <div class="card-footer w-100 text-muted">
+                <span *ngFor="let artist of song['artists']; let isLast=last">
+                        {{artist}}{{isLast ? '' : ', '}}
+                </span>
+                
             </div>
-        </div>
-        <div class="card-footer w-100 text-muted">
-            <span *ngFor="let artist of song['artists']; let isLast=last">
-                    {{artist}}{{isLast ? '' : ', '}}
-            </span>
-            
         </div>
     </div>
 </div>

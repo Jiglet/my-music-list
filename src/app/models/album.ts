@@ -1,5 +1,6 @@
 export class Album {
     id: string;
+    type: string;
     name: string;
     artists: string[];
     tracks: number;

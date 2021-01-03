@@ -10,59 +10,69 @@
     <div class="row">
         <div *ngIf="song" class="col-sm-3">
             <img [src]="song['medImage']" class="albumCover" alt="">
-            <h4 class="text-center">Album: {{ song['album'] }}</h4>
+
+            <div class="list-group">
+                <div class="list-group-item list-group-item-dark text-center py-2 mt-3">Album:</div>
+                <a [routerLink]="'/album/' + song['album']['id']" class="py-2 list-group-item list-group-item-action">
+                    {{ song['album']['name'] }}
+                </a>
+            </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-9">
             <!--Song details-->
             
-            
-            <!--Rating-->
-            <div *ngIf="song" class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                <div class="card-header">
-                    <h1 class="card-title">
-                        <span class="userRating">{{ song['rating'] }} </span>
-                        <small>User Score</small>
-                    </h1>
-                </div>
-                <div class="card-body">
-                  <p class="card-text">{{ song['ratings'] }} user ratings</p>
-                  <p class="card-text">{{ song['reviews'] }} user reviews</p>
-                  <p class="card-text">{{ song['likes'] }} likes</p>
-                </div>
-              </div>
-            <div>
-                
-            </div>
-
-            <!--Reviews-->
-            <div>
-                <h3>Recent Reviews</h3>
-                <div *ngFor="let review of userReviews" class="card bg-light mb-3" style="max-width: 18rem;">
-                    <div class="card-header">{{ review['username'] }}</div>
-                    <div class="card-body">
-                        <rating [readonly]="true" [ngModel]="review['rating']"></rating>
-                      <h5 class="card-title">{{ review['rating'] }}</h5>
-                      <p class="card-text">{{ review['review'] }}</p>
+            <div class="row">
+                <!--Rating-->
+                <div class="col-sm-9">
+                    <div *ngIf="song" class="card text-white bg-info mb-3" style="max-width: 16rem;">
+                        <div class="card-header">
+                            <h1 class="card-title">
+                                <span class="userRating">{{ song['rating'] }} </span>
+                                <small>User Score</small>
+                            </h1>
+                        </div>
+                        <div class="card-body">
+                        <p class="card-text">{{ song['ratings'] }} user ratings</p>
+                        <p class="card-text">{{ song['reviews'] }} user reviews</p>
+                        <p class="card-text">{{ song['likes'] }} likes</p>
+                        </div>
                     </div>
-                  </div>
-            </div>
-        </div>
-
-        <!--Rating Widget-->
-        <div class="col-sm-3">
-            <div class="card" style="width: 200px;">
-                <div class="card-body text-center">
-                    <h3 class="card-title text-center">Rate</h3>
-                    <rating [(ngModel)]="rate" (click)="submitRating(rate)" [max]="5"></rating>
-                    <p> {{ ratingStatus }} </p>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <a href="#" data-toggle="modal" data-target="#exampleModal" ><li class="list-group-item text-center">Write a Review</li></a>
-                    <a href="#"><li class="list-group-item text-center">Add to a list</li></a>
-                    <a href="#"><li class="list-group-item text-center">Share</li></a>
-                </ul>
-              </div>
+                
+            
+
+                <!--Rating Widget-->
+                <div class="col-sm-3 rateWidget">
+                    <div class="card" style="width: 200px;">
+                        <div class="card-body text-center">
+                            <h3 class="card-title text-center">Rate</h3>
+                            <rating [(ngModel)]="rate" (click)="submitRating(rate)" [max]="5"></rating>
+                            <p> {{ ratingStatus }} </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <a href="#" data-toggle="modal" data-target="#exampleModal" ><li class="list-group-item text-center">Write a Review</li></a>
+                            <a href="#"><li class="list-group-item text-center">Add to a list</li></a>
+                            <a href="#"><li class="list-group-item text-center">Share</li></a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="row">
+                <!--Reviews-->
+                <div class="reviewSection">
+                    <h3>Recent Reviews</h3>
+                    <div *ngFor="let review of userReviews" class="card bg-light mb-3" style="max-width: 100vh;">
+                        <div class="card-header">{{ review['username'] }} <span class="float-right">{{ review['date'] | date : "mediumDate" }}</span></div>
+                        <div class="card-body">
+                            <rating [readonly]="true" [ngModel]="review['rating']"></rating> 
+                        <p class="card-text">{{ review['review'] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

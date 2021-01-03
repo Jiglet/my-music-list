@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 //Routing Imports
 import { AppRoutingModule, routingComponents } from './app-routing.module';
@@ -47,6 +48,7 @@ import { AlbumDetailComponent } from './features/album-detail/album-detail.compo
     BrowserAnimationsModule,
     MaterialModule,
     RatingModule.forRoot(),
+    RouterModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

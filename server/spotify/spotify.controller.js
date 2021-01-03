@@ -31,6 +31,7 @@ tokenRefreshInterval = setInterval(newToken, 1000 * 60 * 60); //Refresh access t
 
 // routes
 router.post('/getTrack', getTrack);
+router.post('/getAlbum', getAlbum);
 router.get('/getUSTop50', getUSTop50);
 router.get('/getNewReleases', getNewReleases);
 
@@ -46,6 +47,17 @@ async function getTrack(req, res, next) {
     }, function(err) {
       console.log('Something went wrong!', err);
     });
+}
+
+async function getAlbum(req, res, next) {
+  console.log('getTrack called req.body: '+req.body.path)
+  spotifyApi.getAlbum(req.body.path)
+  .then(function(data) {
+    // console.log('Some information about this song', data.body);
+    res.send({ data: data.body })
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
 }
 
 async function getUSTop50(req, res, next) {

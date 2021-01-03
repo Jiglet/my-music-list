@@ -26,6 +26,7 @@
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/css.gg/icons/all.css",
               "src/custom-theme.scss",
               "src/styles.css"
             ],

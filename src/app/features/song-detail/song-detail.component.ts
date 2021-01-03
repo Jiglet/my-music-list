@@ -42,7 +42,7 @@ export class SongDetailComponent implements OnInit {
         id: songData['data']['id'], 
         name: songData['data']['name'],
         artists: songData['data']['artists'].map(x => x['name']),
-        album: songData['data']['album']['name'],
+        album: songData['data']['album'],
         release_date: songData['data']['album']['release_date'],
         smImage: songData['data']['album']['images']['0']['url'],
         medImage: songData['data']['album']['images']['1']['url'],
@@ -59,9 +59,6 @@ export class SongDetailComponent implements OnInit {
     error => {
       throw error
     });
-
-    // Get reviews for current song
-
 
     // Get user data
     let user = JSON.parse(this.accountService.getUser());
@@ -84,6 +81,7 @@ export class SongDetailComponent implements OnInit {
     // Get user data to send in request
     let user = JSON.parse(this.accountService.getUser());
     let request = {
+      type: 'song',
       userID: user["id"],
       username: user['username'],
       spotifyID: this.route.snapshot.url[1].path,
@@ -96,6 +94,7 @@ export class SongDetailComponent implements OnInit {
         if(data['success']) {
           this.ratingStatus = 'Rating updated!';
           this.rated = true;
+          window.location.reload();
         } else {
           this.ratingStatus = 'Something went wrong';
         }
@@ -105,6 +104,7 @@ export class SongDetailComponent implements OnInit {
         if(data['success']) {
           this.ratingStatus = 'Thanks for rating!';
           this.rated = true;
+          window.location.reload();
         } else {
           this.ratingStatus = 'Something went wrong';
         }
@@ -118,6 +118,7 @@ export class SongDetailComponent implements OnInit {
     let reviewContent = this.reviewForm.get('reviewContent').value
 
     let request = {
+      type: 'song',
       userID: user["id"],
       username: user['username'],
       spotifyID: this.route.snapshot.url[1].path,
@@ -129,6 +130,7 @@ export class SongDetailComponent implements OnInit {
       if(data['success']) {
         this.ratingStatus = 'Thanks for reviewing!';
         this.rated = true;
+        window.location.reload();
       } else {
         this.ratingStatus = 'Something went wrong';
       }

@@ -33,6 +33,7 @@
     "@popperjs/core": "^2.6.0",
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
+    "css.gg": "^2.0.0",
     "jquery": "^3.5.1",
     "ngx-bar-rating": "^2.0.0",
     "ngx-bootstrap": "^6.2.0",
