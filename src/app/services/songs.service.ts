@@ -18,6 +18,9 @@ export class SongsService {
     getUSTop50() {
       return this.http.get(`${environment.apiUrl}/spotify/getUSTop50`);
     }
+    getNewReleases() {
+      return this.http.get(`${environment.apiUrl}/spotify/getNewReleases`);
+    }
 
     // REVIEWS API CALLS
     getTrackReviews(id) {

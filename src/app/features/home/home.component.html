@@ -1,1 +1,28 @@
-<h2 class="text-center">Welcome to my music list</h2>
+<h2 class="text-center"><strong>New Releases</strong></h2>
+<hr>
+<div class="row">
+    <div *ngFor="let album of albums" class="col-md-3">
+        <a [routerLink]="'/album/' + album['id']">
+        <div class="profile-card-6"><img [src]="album.medImage" class="img img-responsive">
+            <div class="profile-name">{{ album['artists'][0] }}</div>
+            <div class="profile-position">{{ album['name'] }}</div>
+            <div class="profile-overview">
+                <div class="row text-center">
+                    <div class="col-sm-4">
+                        <h3>{{ album['tracks'] }}</h3>
+                        <p>Track(s)</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>{{ album['rating'] }}</h3>
+                        <p>User Score</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>{{ album['reviews'] }}</h3>
+                        <p>Reviews</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </a>
+    </div>
+</div>

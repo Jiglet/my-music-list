@@ -7,6 +7,7 @@ import { RegisterComponent } from './account/register/register.component'
 import { AuthGuard } from './core/auth.guard';
 import { SongsComponent } from './features/songs/songs.component';
 import { SongDetailComponent } from './features/song-detail/song-detail.component';
+import { AlbumDetailComponent } from './features/album-detail/album-detail.component';
 import { MyListComponent } from './features/my-list/my-list.component';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'songs', component: SongsComponent },
   { path: 'myList', component: MyListComponent },
   { path: 'track/:id', component: SongDetailComponent },
+  { path: 'album/:id', component: AlbumDetailComponent },
 ];
 
 @NgModule({

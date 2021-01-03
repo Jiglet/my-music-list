@@ -1,0 +1,5 @@
+.app-container {
+    min-height: 95vh;
+    position: relative;
+    background-color: #f3e6e6;
+}

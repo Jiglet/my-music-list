@@ -1,0 +1,94 @@
+<div class="container detail-container">
+    <div class="row">
+        <div *ngIf="song" >
+            <h1 class="card-title">
+                <span class="song-title">{{ song['name'] }} </span>
+                <small class="text-muted">by <span *ngFor="let artist of song['artists']; let isLast=last">{{artist}}{{isLast ? '' : ', '}}</span></small>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngIf="song" class="col-sm-3">
+            <img [src]="song['medImage']" class="albumCover" alt="">
+            <h4 class="text-center">Album: {{ song['album'] }}</h4>
+        </div>
+
+        <div class="col-sm-6">
+            <!--Song details-->
+            
+            
+            <!--Rating-->
+            <div *ngIf="song" class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header">
+                    <h1 class="card-title">
+                        <span class="userRating">{{ song['rating'] }} </span>
+                        <small>User Score</small>
+                    </h1>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">{{ song['ratings'] }} user ratings</p>
+                  <p class="card-text">{{ song['reviews'] }} user reviews</p>
+                  <p class="card-text">{{ song['likes'] }} likes</p>
+                </div>
+              </div>
+            <div>
+                
+            </div>
+
+            <!--Reviews-->
+            <div>
+                <h3>Recent Reviews</h3>
+                <div *ngFor="let review of userReviews" class="card bg-light mb-3" style="max-width: 18rem;">
+                    <div class="card-header">{{ review['username'] }}</div>
+                    <div class="card-body">
+                        <rating [readonly]="true" [ngModel]="review['rating']"></rating>
+                      <h5 class="card-title">{{ review['rating'] }}</h5>
+                      <p class="card-text">{{ review['review'] }}</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+
+        <!--Rating Widget-->
+        <div class="col-sm-3">
+            <div class="card" style="width: 200px;">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-center">Rate</h3>
+                    <rating [(ngModel)]="rate" (click)="submitRating(rate)" [max]="5"></rating>
+                    <p> {{ ratingStatus }} </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <a href="#" data-toggle="modal" data-target="#exampleModal" ><li class="list-group-item text-center">Write a Review</li></a>
+                    <a href="#"><li class="list-group-item text-center">Add to a list</li></a>
+                    <a href="#"><li class="list-group-item text-center">Share</li></a>
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Write a Review...</h4><br/>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="container" [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-center">Rate</h3>
+                    <rating formControlName="rating" (rate)="rate" [max]="5" required></rating>
+                </div>
+                <div class="form-group">
+                    <textarea formControlName="reviewContent" class="form-control" id="message-text" required></textarea>
+                </div>
+
+                <button type="submit" [disabled]="!reviewForm.valid" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

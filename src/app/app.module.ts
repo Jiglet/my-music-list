@@ -20,6 +20,7 @@ import { SongsComponent } from './features/songs/songs.component';
 import { MyListComponent } from './features/my-list/my-list.component';
 import { SongDetailComponent } from './features/song-detail/song-detail.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { AlbumDetailComponent } from './features/album-detail/album-detail.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     HeaderComponent,
     SongsComponent,
     MyListComponent,
-    SongDetailComponent
+    SongDetailComponent,
+    AlbumDetailComponent
   ],
   imports: [
     HttpClientModule,
