@@ -8,11 +8,11 @@ Clone repo
 
 Install Angular CLI npm -g @angular/cli
 
-Navigate into repo and run npm install --also dev
+Navigate into repo and run npm install --also=dev
 
 Run 'ng serve'
 
-In another terminal navigate into server directory and run npm install --also dev
+In another terminal navigate into server directory and run npm install --also=dev
 
 Run 'npm run dev'
 
