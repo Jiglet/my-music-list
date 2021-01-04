@@ -162,6 +162,7 @@ async function submitReview(req, res, next) { // TODO
                 newTotalRatings = ratings.rows[0].totalrating + rating
                 await db.pool.query(`UPDATE tracks SET ratings = ratings + 1, totalrating = totalrating + $1 WHERE spotifyid = $2`, [rating, spotifyID])
                 await db.pool.query(`UPDATE tracks SET rating = totalrating/ratings WHERE spotifyid = $1`, [spotifyID])
+                await db.pool.query(`UPDATE tracks SET reviews = reviews + 1 WHERE spotifyid = $1`, [spotifyID])
             } 
             else {
                 await db.pool.query(`INSERT INTO tracks (spotifyid, rating, reviews, likes, ratings, totalrating) VALUES ($1, $2, $3, $4, $5, $6)`, [spotifyID, rating, 1, 0, 1, rating])
@@ -296,6 +297,7 @@ async function submitAlbumReview(req, res, next) { // TODO
                 newTotalRatings = ratings.rows[0].totalrating + rating
                 await db.pool.query(`UPDATE albums SET ratings = ratings + 1, totalrating = totalrating + $1 WHERE spotifyid = $2`, [rating, spotifyID])
                 await db.pool.query(`UPDATE albums SET rating = totalrating/ratings WHERE spotifyid = $1`, [spotifyID])
+                await db.pool.query(`UPDATE albums SET reviews = reviews + 1 WHERE spotifyid = $1`, [spotifyID])
             } 
             else {
                 await db.pool.query(`INSERT INTO albums (spotifyid, rating, reviews, likes, ratings, totalrating) VALUES ($1, $2, $3, $4, $5, $6)`, [spotifyID, rating, 1, 0, 1, rating])
