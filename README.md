@@ -26,5 +26,7 @@ https://my-song-list.herokuapp.com/login
 Would not recommend using your commonly used passwords or real email. Passwords are hashed but security hasn't been worked on much. Feel free to play around on the app, will eventually wipe db to get a fresh start.
 
 Test user info:
+
 test
+
 test123
